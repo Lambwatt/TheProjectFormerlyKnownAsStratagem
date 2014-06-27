@@ -1,0 +1,4 @@
+TheProjectFormerlyKnownAsStratagem
+==================================
+
+See title
