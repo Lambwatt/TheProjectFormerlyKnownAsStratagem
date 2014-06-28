@@ -1,7 +1,7 @@
 function mapHolderMaker(){
 	this.mapData = {hor_sq:5, ver_sq:5};
-	this.x = 0;
-	this.y = 0
+	this.x = 0;//x on map
+	this.y = 0;//y on map
 	this.width = 48*4;
 	this.height = 48*4;
 	this.map = null;
@@ -37,4 +37,8 @@ function mapHolderMaker(){
 		mapHolder.scrolled = true;
 		return mapHolder;
 	}
+}
+
+function processMouseClick(x, y){
+	return map.getTile(x%this.hor_sq + this.x, y%this.ver_sq + this.y);
 }
