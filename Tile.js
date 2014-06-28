@@ -1,20 +1,7 @@
+var Tile = {};
 
 function isEmpty(){
 	return unit==null;
-}
-
-
-
-function makeTile(){
-	var tile = {};
-
-	tile.unit = null; 
-	return tile;
-}
-
-function makeUnit(){
-	var unit = {hp:10, unit_class:test};
-	return unit;
 }
 
 function getTile(x, y){
@@ -24,7 +11,21 @@ function getTile(x, y){
 		return false;
 }
 
-function getTileInDirection(base_x, base_y, direction){
+Tile.makeTile = function(){
+	var tile = {};
+
+	tile.unit = null; 
+	return tile;
+}
+
+//This belongs elsewhere
+function makeUnit(){
+	var unit = {hp:10, unit_class:test};
+	return unit;
+}
+
+
+getTileInDirection = function(base_x, base_y, direction){
 	var coords = {x:base_x, y:base_y};
 
 	if(!this.getTile(coords.x, coords.y)){
@@ -32,16 +33,16 @@ function getTileInDirection(base_x, base_y, direction){
 		return false;//
 	}
 
-	coords = getForwardStepInDirection(direction)(coords);
+	coords = Tile.getForwardStepInDirection(direction)(coords);
 
 	if(!this.getTile(coords.x, coords.y))
-		coords = getBackwardStepInDirection(direction)(coords);
+		coords = Tile.getBackwardStepInDirection(direction)(coords);
 
 	return this.getTile(coords.x, coords.y);
 	
 }
 
-function getForwardStepInDirection(direction){
+Tile.getForwardStepInDirection = function(direction){
 	switch(direction){
 		case N:
 			return function(coords){return{x:coords, y:coords-1}};
@@ -64,7 +65,7 @@ function getForwardStepInDirection(direction){
 	}
 }
 
-function getBackwardStepInDirection(direction){
+Tile.getBackwardStepInDirection = function(direction){
 	switch(direction){
 		case N:
 			return function(coords){return{x:coords, y:coords+1}};
@@ -87,12 +88,12 @@ function getBackwardStepInDirection(direction){
 	}
 }
 
-function makeMap(x, y){
+Tile.makeMap = function(x, y){
 	var map = {width:x, height:y, tiles:[]};
 	for(var i = 0; i<x; i++){
 		map.tiles[i] = [];
 		for(var j = 0; j<y; j++){
-			map.tiles[i][j] = makeTile();
+			map.tiles[i][j] = Tile.makeTile();
 		}
 	}
 
