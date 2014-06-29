@@ -41,11 +41,16 @@ function mapHolderMaker(){
 			height:this.height, 
 			hor_sq:this.mapData.hor_sq, 
 			ver_sq:this.mapData.ver_sq, 
-			sq_width:this.width/this.hor_sq,
-			sq_height:this.height/this.ver_sq
+			sq_width:this.width/mapData.hor_sq,
+			sq_height:this.height/mapData.ver_sq
 		};
+		console.log(JSON.stringify(mapHolder));
 		mapHolder.scrolled = true;
-		mapHolder.background = null;
+		mapHolder.background = document.createElement('canvas');
+		mapHolder.background.width = mapHolder.width;
+		mapHolder.background.height = mapHolder.height;
+		//mapHolder.background.id = "background";
+		//console.log("test", mapHolder.background));
 
 		return mapHolder;
 	}

@@ -9,25 +9,27 @@ window.requestAnimFrame = (function(callback) {
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
-console.log(renderMap);
-
 var layout = {
 	map:{
 		contents:mapHolderMaker().setMap(Tile.makeMap(6, 6)).build(),
-		x:50,
-		y:50,
+		x:0,
+		y:0,
 		renderer:renderMap
 	}
 }
 
-console.log(layout.map.renderer);
+console.log("in main", layout.map.contents.background);
 
 
 function renderPage(){
 	for(var section in layout){
+		//console.log("blankitude", layout.map.contents.background);
+		//console.log(layout[section].renderer(layout[section].contents));
+		console.log(layout[section].x, layout[section].y, layout[section].contents.width, layout[section].contents.height);
 		ctx.drawImage(layout[section].renderer(layout[section].contents), layout[section].x, layout[section].y, layout[section].contents.width, layout[section].contents.height);
 	}
 }
 
-setInterval(renderPage, 30);
+//setInterval(renderPage, 30);
+renderPage();
 
