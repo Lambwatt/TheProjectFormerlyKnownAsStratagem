@@ -1,28 +1,22 @@
 function renderMap(mapHolder){
 
-	//console.log(JSON.stringify(mapHolder));
+
 
 	if(mapHolder.scrolled){
-		//console.log("render map", mapHolder.background);
+
 		renderBackground(mapHolder);
 		mapHolder.scrolled = false;
 	}
 	var canvas = mapHolder.background;
 
-	// console.log("in render map before return", mapHolder.background);
-	//call the unit renderer
+
 
 	return canvas;
 }
 
 function renderBackground(mapHolder){
-	//var canvas = document.getElementById("canvas");
-	//console.log("render back", typeof(mapHolder.background));
 	var ctx = mapHolder.background.getContext("2d");
-	console.log(ctx.canvas);
-	//ctx.canvas.width = 240;
-	//ctx.canvas.height = 240;
-	console.log(ctx.canvas);
+
 
 	for(var i = 0; i<mapHolder.hor_sq; i++){
 		for(var j = 0; j<mapHolder.ver_sq; j++){
@@ -33,15 +27,30 @@ function renderBackground(mapHolder){
 
 			//get tile by location to asses terrain
 
-			console.log("drew rect with "+ctx.fillStyle);
-			//console.log(mapHolder);
-			console.log(mapHolder.sq_width*i, mapHolder.sq_height*j, mapHolder.sq_width, mapHolder.sq_height);
 			ctx.fillRect(mapHolder.sq_width*i, mapHolder.sq_height*j, mapHolder.sq_width, mapHolder.sq_height);
 		}
 	}
-	//return mapHolder.background;
 }
 
-function renderUnits(mapHolder){
+var playerColours = ["rgb(0,0,200)", "rgb(200,200,0)"];
 
+function renderUnits(mapHolder){
+	var ctx = mapHolder.foreground.getContext("2d");
+	ctx.clearRect(0,0,mapHolder.foreground.width, mapHolder.foreground.height);
+
+	var units = mapHolder.map.unitList;
+	for(var i in units){
+		//if unit is in view
+		if(units[i].marker.x > mapHolder.x && units[i].marker.x < mapHolder.x + mapHolder.hor_sq
+			&& units[i].marker.y > mapHolder.y && units[i].marker.y < mapHolder.y + mapHolder.ver_sq){
+			if(units[i].selected){
+				//Draw square around unit
+			}
+
+			ctx.fillStyle = playerColours[units[i].player];
+
+			//draw unit
+			ctx.fillRect(mapHolder.sq_width * (units[i].marker.x - mapHolder.x)+10, mapHolder.sq_height * (units[i].marker.y - mapHolder.y)+6,24,40);
+		}
+	}
 }

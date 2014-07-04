@@ -23,15 +23,6 @@ function mapHolderMaker(){
 		return this;
 	}
 
-	// this.confirmMapDimensions(){
-	// 	if(this.map.width/this.width < this.mapData.hor_sq){
-	// 		this.mapData.hor_sq = this.map.width;
-	// 	}
-	// 	if(this.map.height/this.height < this.mapData.ver_sq){
-	// 		this.mapData.ver_sq = this.map.height;
-	// 	}
-	// }
-
 	this.build = function(){
 		var mapHolder = {
 			map:this.map, 
@@ -44,13 +35,11 @@ function mapHolderMaker(){
 			sq_width:this.width/mapData.hor_sq,
 			sq_height:this.height/mapData.ver_sq
 		};
-		console.log(JSON.stringify(mapHolder));
+
 		mapHolder.scrolled = true;
 		mapHolder.background = document.createElement('canvas');
 		mapHolder.background.width = mapHolder.width;
 		mapHolder.background.height = mapHolder.height;
-		//mapHolder.background.id = "background";
-		//console.log("test", mapHolder.background));
 
 		return mapHolder;
 	}

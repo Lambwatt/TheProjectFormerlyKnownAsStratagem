@@ -19,10 +19,20 @@ Tile.makeTile = function(){
 }
 
 //This belongs elsewhere
-function makeUnit(){
-	var unit = {hp:10, unit_class:test};
+function makeUnit(player){
+	var unit = {hp:10, unit_class:test, player:player};
 	return unit;
 }
+
+
+function addUnit(unit, x, y){
+	var unitMarker = {unit:unit, x:x, y:y, selected:false};
+	this.tiles[x][y].unit = unitMarker;
+	unit.marker = unitMarker;
+	this.unitList.push(unit);
+}
+
+
 
 
 getTileInDirection = function(base_x, base_y, direction){
@@ -99,7 +109,8 @@ Tile.makeMap = function(x, y){
 
 	map.getTile = getTile;
 	map.getTileInDirection = getTileInDirection;
-
+	map.unitList = [];
+	map.addUnit = addUnit;
 
 	return map;
 }

@@ -18,18 +18,14 @@ var layout = {
 	}
 }
 
-console.log("in main", layout.map.contents.background);
 
 
 function renderPage(){
 	for(var section in layout){
-		//console.log("blankitude", layout.map.contents.background);
-		//console.log(layout[section].renderer(layout[section].contents));
-		console.log(layout[section].x, layout[section].y, layout[section].contents.width, layout[section].contents.height);
 		ctx.drawImage(layout[section].renderer(layout[section].contents), layout[section].x, layout[section].y, layout[section].contents.width, layout[section].contents.height);
 	}
 }
 
-//setInterval(renderPage, 30);
-renderPage();
+setInterval(renderPage, 30);
+
 
