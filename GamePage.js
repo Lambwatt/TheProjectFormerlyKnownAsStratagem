@@ -11,7 +11,7 @@ var ctx = canvas.getContext("2d");
 
 var layout = {
 	map:{
-		contents:mapHolderMaker().setMap(Tile.makeMap(6, 6)).build(),
+		contents:mapHolderMaker().setMap(Map.makeMap(6, 6, initTestMap)).build(),
 		x:0,
 		y:0,
 		renderer:renderMap
@@ -29,3 +29,9 @@ function renderPage(){
 setInterval(renderPage, 30);
 
 
+function initTestMap(map){
+	map.addUnit(0,0, makeUnit(0));
+	map.addUnit(1,3, makeUnit(0));
+	map.addUnit(3,2, makeUnit(0));
+	map.unitList[2].selected = true;
+}

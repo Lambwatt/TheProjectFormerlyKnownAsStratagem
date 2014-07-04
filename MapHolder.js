@@ -37,9 +37,20 @@ function mapHolderMaker(){
 		};
 
 		mapHolder.scrolled = true;
+
 		mapHolder.background = document.createElement('canvas');
 		mapHolder.background.width = mapHolder.width;
 		mapHolder.background.height = mapHolder.height;
+
+		mapHolder.foreground = document.createElement('canvas');
+		mapHolder.foreground.width = mapHolder.width;
+		mapHolder.foreground.height = mapHolder.height;
+
+		mapHolder.renderCanvas = document.createElement('canvas');
+		mapHolder.renderCanvas.width = mapHolder.width;
+		mapHolder.renderCanvas.height = mapHolder.height;
+
+
 
 		return mapHolder;
 	}

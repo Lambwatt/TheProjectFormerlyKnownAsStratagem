@@ -1,17 +1,24 @@
 function renderMap(mapHolder){
 
-
+	var mapCtx = mapHolder.renderCanvas.getContext("2d"); 
+	mapCtx.clearRect(0, 0, mapHolder.width, mapHolder.height);
+	//console.log(mapHolder.map);
+	if(mapHolder.map==null)
+		return document.createElement('canvas');
 
 	if(mapHolder.scrolled){
 
 		renderBackground(mapHolder);
 		mapHolder.scrolled = false;
 	}
-	var canvas = mapHolder.background;
 
+	mapCtx.drawImage(mapHolder.background, 0, 0, mapHolder.width, mapHolder.height);
+	//mapRenderCanvas//document.//mapHolder.background;
 
+	renderUnits(mapHolder);
+	mapCtx.drawImage(mapHolder.foreground, 0, 0, mapHolder.width, mapHolder.height);
 
-	return canvas;
+	return mapHolder.renderCanvas;
 }
 
 function renderBackground(mapHolder){
@@ -32,25 +39,31 @@ function renderBackground(mapHolder){
 	}
 }
 
-var playerColours = ["rgb(0,0,200)", "rgb(200,200,0)"];
+var playerColours = ["rgb(200,200,0)", "rgb(0,0,200)"];
 
 function renderUnits(mapHolder){
+
 	var ctx = mapHolder.foreground.getContext("2d");
 	ctx.clearRect(0,0,mapHolder.foreground.width, mapHolder.foreground.height);
 
 	var units = mapHolder.map.unitList;
 	for(var i in units){
+
 		//if unit is in view
-		if(units[i].marker.x > mapHolder.x && units[i].marker.x < mapHolder.x + mapHolder.hor_sq
-			&& units[i].marker.y > mapHolder.y && units[i].marker.y < mapHolder.y + mapHolder.ver_sq){
+		if(units[i].marker.x >= mapHolder.x && units[i].marker.x < mapHolder.x + mapHolder.hor_sq
+			&& units[i].marker.y >= mapHolder.y && units[i].marker.y < mapHolder.y + mapHolder.ver_sq){
 			if(units[i].selected){
-				//Draw square around unit
+				ctx.lineWidth = 5;
+				ctx.strokeStyle = "rgb(0,200,0)";
+				ctx.strokeRect(mapHolder.sq_width * (units[i].marker.x - mapHolder.x), mapHolder.sq_height * (units[i].marker.y - mapHolder.y), mapHolder.sq_width, mapHolder.sq_height);
 			}
 
 			ctx.fillStyle = playerColours[units[i].player];
 
 			//draw unit
 			ctx.fillRect(mapHolder.sq_width * (units[i].marker.x - mapHolder.x)+10, mapHolder.sq_height * (units[i].marker.y - mapHolder.y)+6,24,40);
+
+			//console.log("drew unit with colour "+ctx.fillStyle);
 		}
 	}
 }
