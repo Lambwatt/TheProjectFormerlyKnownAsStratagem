@@ -46,16 +46,16 @@ function renderUnits(mapHolder){
 	var ctx = mapHolder.foreground.getContext("2d");
 	ctx.clearRect(0,0,mapHolder.foreground.width, mapHolder.foreground.height);
 
-	var units = mapHolder.map.unitList;
+	var units;
+
+	units = mapHolder.map.unitList;
 	for(var i in units){
 
 		//if unit is in view
 		if(units[i].marker.x >= mapHolder.x && units[i].marker.x < mapHolder.x + mapHolder.hor_sq
 			&& units[i].marker.y >= mapHolder.y && units[i].marker.y < mapHolder.y + mapHolder.ver_sq){
 			if(units[i].selected){
-				ctx.lineWidth = 5;
-				ctx.strokeStyle = "rgb(0,200,0)";
-				ctx.strokeRect(mapHolder.sq_width * (units[i].marker.x - mapHolder.x), mapHolder.sq_height * (units[i].marker.y - mapHolder.y), mapHolder.sq_width, mapHolder.sq_height);
+
 			}
 
 			ctx.fillStyle = playerColours[units[i].player];
@@ -66,4 +66,20 @@ function renderUnits(mapHolder){
 			//console.log("drew unit with colour "+ctx.fillStyle);
 		}
 	}
+
+	units = mapHolder.map.selectedUnitList;
+	ctx.lineWidth = 5;
+	ctx.strokeStyle = "rgb(0,200,0)";
+
+	for(var i in units){
+		//console.log(i, units.length, units[i]);
+		if(units[i].marker.x >= mapHolder.x && units[i].marker.x < mapHolder.x + mapHolder.hor_sq
+			&& units[i].marker.y >= mapHolder.y && units[i].marker.y < mapHolder.y + mapHolder.ver_sq){
+	
+			ctx.strokeRect(mapHolder.sq_width * (units[i].marker.x - mapHolder.x) +2, mapHolder.sq_height * (units[i].marker.y - mapHolder.y)+2, mapHolder.sq_width-4, mapHolder.sq_height-4);
+		}
+	}
+
+
+
 }

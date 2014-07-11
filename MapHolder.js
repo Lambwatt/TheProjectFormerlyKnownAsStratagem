@@ -50,7 +50,7 @@ function mapHolderMaker(){
 		mapHolder.renderCanvas.width = mapHolder.width;
 		mapHolder.renderCanvas.height = mapHolder.height;
 
-
+		mapHolder.processMouseClick = processMouseClick;
 
 		return mapHolder;
 	}
@@ -59,5 +59,24 @@ function mapHolderMaker(){
 }
 
 function processMouseClick(x, y){
-	return map.getTile(Math.floor(x/this.hor_sq) + this.x, Math.floor(y/this.ver_sq) + this.y);
+	
+	var tile = map.getTile(Math.floor(x/this.sq_width) + this.x, Math.floor(y/this.sq_height) + this.y);
+	if(tile.unit!=null){
+		if(tile.unit.selected){
+			var newSelections = [];
+			for(var i in this.map.selectedUnitList){
+				if(this.map.selectedUnitList[i] != tile.unit.unit){
+					newSelections.push(this.map.selectedUnitList[i]);
+				}else{
+					console.log("removed entry");
+					tile.unit.selected = false;
+				}
+			}
+			this.map.selectedUnitList = newSelections;
+		}else{
+			this.map.selectedUnitList.push(tile.unit.unit);
+			tile.unit.selected = true;
+			console.log("selected");
+		}
+	}
 }

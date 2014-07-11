@@ -5,7 +5,7 @@ function isEmpty(){
 }
 
 function getTile(x, y){
-	if(x>0 && x<this.tiles.length && y>0 && y<this.tiles.height)
+	if(x>=0 && x<this.width && y>=0 && y<this.height)
 		return this.tiles[x][y];
 	else
 		return false;
@@ -24,14 +24,22 @@ function makeUnit(player){
 	return unit;
 }
 
+function selectUnit(unit){
+	//console.log(unit, unit.marker);
+	this.selectedUnitList.push(unit);
+	unit.marker.selected = true;
+}
+
 
 function addUnit(x, y, unit){
 	var unitMarker = {unit:unit, x:x, y:y, selected:false};
 	this.tiles[x][y].unit = unitMarker;
 	unit.marker = unitMarker;
 	this.unitList.push(unit);
-	console.log(this.unitList.length);
+	//console.log(unit.marker);
+	//console.log(this.unitList.length);
 }
+
 
 getTileInDirection = function(base_x, base_y, direction){
 	var coords = {x:base_x, y:base_y};
@@ -47,8 +55,8 @@ getTileInDirection = function(base_x, base_y, direction){
 		coords = Tile.getBackwardStepInDirection(direction)(coords);
 
 	return this.getTile(coords.x, coords.y);
-	
 }
+
 
 Map.getForwardStepInDirection = function(direction){
 	switch(direction){
@@ -109,6 +117,8 @@ Map.makeMap = function(x, y, mapInit){
 	map.getTileInDirection = getTileInDirection;
 	map.unitList = [];
 	map.addUnit = addUnit;
+	map.selectedUnitList = [];
+	map.selectUnit = selectUnit;
 
 	mapInit(map);//Expect side effects.
 
