@@ -5,15 +5,17 @@ function mapHolderMaker(){
 	this.width = 48*5;//width on screen
 	this.height = 48*5;//height on screen
 	this.map = null;
+	
 
 	this.setMap = function(map){
 		this.map = map;	
 		return this;
 	}
 
-	this.setTilesShown = function(x, y){
+	this.setTilesShown = function(x, y){//This name is ambiguous should be set window size or something like that.
 		this.mapData.hor_sq = x;
 		this.mapData.ver_sq = y;
+
 		return this;
 	}
 
@@ -51,6 +53,11 @@ function mapHolderMaker(){
 		mapHolder.renderCanvas.height = mapHolder.height;
 
 		mapHolder.processMouseClick = processMouseClick;
+		mapHolder.unitsOnScreen = TileCollection();
+		mapHolder.selectionsOnScreen = TileCollection();
+
+		mapHolder.setMapWindow = setMapWindow;
+		mapHolder.setMapWindow(0, 0);
 
 		return mapHolder;
 	}
@@ -58,25 +65,43 @@ function mapHolderMaker(){
 	return this;
 }
 
-function processMouseClick(x, y){
-	
-	var tile = map.getTile(Math.floor(x/this.sq_width) + this.x, Math.floor(y/this.sq_height) + this.y);
-	if(tile.unit!=null){
-		if(tile.unit.selected){
-			var newSelections = [];
-			for(var i in this.map.selectedUnitList){
-				if(this.map.selectedUnitList[i] != tile.unit.unit){
-					newSelections.push(this.map.selectedUnitList[i]);
-				}else{
-					console.log("removed entry");
-					tile.unit.selected = false;
-				}
+function setMapWindow(x, y){
+	this.x = x;
+	this.y = y;
+
+	this.unitsOnScreen = [];
+	for(var i = 0; i<this.hor_sq; i++){
+		for(var j = 0; j<this.ver_sq; j++){
+			var tile = this.map.getTile(x+i, y+j);
+			if(tile.unit){
+				this.unitsOnScreen.push({x:x+i, y:y+j, unit:tile.unit});
 			}
-			this.map.selectedUnitList = newSelections;
-		}else{
-			this.map.selectedUnitList.push(tile.unit.unit);
-			tile.unit.selected = true;
-			console.log("selected");
 		}
 	}
+
+	this.selectionsOnScreen = [];
+	console.log(JSON.stringify(this.map.selectedTileList));
+	var selections = this.map.selectedTileList.allTiles();
+	console.log(JSON.stringify(selections));
+	for(var i in selections){
+		//var tile = this.map.getTile(x+i, y+j);
+		if(selections[i].x >= this.x && selections[i].x < this.x + this.hor_sq 
+			&& selections[i].y >= this.y && selections[i].y < this.y + this.ver_sq ){
+			this.selectionsOnScreen.push(selections[i]);
+			console.log("pushed"+selections[i]);
+		}
+	}
+	//console.log(this.selectionsOnScreen);
+}
+
+function processMouseClick(x, y){
+	
+	var tile_x = Math.floor(x/this.sq_width) + this.x;
+	var tile_y = Math.floor(y/this.sq_height) + this.y;
+	var tile = this.map.getTile(tile_x, tile_y);
+	if(tile.unit){ 
+		this.map.selectUnit(tile_x, tile_y);
+		this.setMapWindow(this.x, this.y);//Need proper refresh routine
+	}
+	console.log(this.selectionsOnScreen)
 }

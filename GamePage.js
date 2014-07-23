@@ -35,8 +35,8 @@ function initTestMap(map){
 	map.addUnit(1,3, makeUnit(0));
 	map.addUnit(3,2, makeUnit(0));
 	//console.log(map.unitList[2].marker);
-	map.selectUnit(map.unitList[2]);
-	map.unitList[2].selected = true;
+	map.selectUnit(3, 2);
+	//map.unitList[2].selected = true;
 	//console.log(map.selectedUnitList);
 	map.unitList[0].id = 0;
 	map.unitList[1].id = 1;

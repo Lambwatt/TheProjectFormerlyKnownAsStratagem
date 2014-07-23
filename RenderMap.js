@@ -42,44 +42,43 @@ function renderBackground(mapHolder){
 var playerColours = ["rgb(200,200,0)", "rgb(0,0,200)"];
 
 function renderUnits(mapHolder){
-
+	// console.log("got here");
 	var ctx = mapHolder.foreground.getContext("2d");
 	ctx.clearRect(0,0,mapHolder.foreground.width, mapHolder.foreground.height);
 
 	var units;
 
-	units = mapHolder.map.unitList;
+
+	units = mapHolder.unitsOnScreen;
+	//console.log(JSON.stringify(units));
 	for(var i in units){
 
 		//if unit is in view
-		if(units[i].marker.x >= mapHolder.x && units[i].marker.x < mapHolder.x + mapHolder.hor_sq
-			&& units[i].marker.y >= mapHolder.y && units[i].marker.y < mapHolder.y + mapHolder.ver_sq){
-			if(units[i].selected){
+		if(units[i].x >= mapHolder.x && units[i].x < mapHolder.x + mapHolder.hor_sq
+			&& units[i].y >= mapHolder.y && units[i].y < mapHolder.y + mapHolder.ver_sq){
 
-			}
-
-			ctx.fillStyle = playerColours[units[i].player];
+			ctx.fillStyle = playerColours[units[i].unit.player];
 
 			//draw unit
-			ctx.fillRect(mapHolder.sq_width * (units[i].marker.x - mapHolder.x)+10, mapHolder.sq_height * (units[i].marker.y - mapHolder.y)+6,24,40);
+			ctx.fillRect(mapHolder.sq_width * (units[i].x - mapHolder.x)+10, mapHolder.sq_height * (units[i].y - mapHolder.y)+6,24,40);
 
 			//console.log("drew unit with colour "+ctx.fillStyle);
 		}
 	}
-
-	units = mapHolder.map.selectedUnitList;
+	//console.log(mapHolder.selectionsOnScreen);
+	units = mapHolder.selectionsOnScreen;//.allTiles();
+	//console.log(units);
 	ctx.lineWidth = 5;
 	ctx.strokeStyle = "rgb(0,200,0)";
-
+	//console.log(units);
+	//Change to match new selection system
 	for(var i in units){
 		//console.log(i, units.length, units[i]);
-		if(units[i].marker.x >= mapHolder.x && units[i].marker.x < mapHolder.x + mapHolder.hor_sq
-			&& units[i].marker.y >= mapHolder.y && units[i].marker.y < mapHolder.y + mapHolder.ver_sq){
-	
-			ctx.strokeRect(mapHolder.sq_width * (units[i].marker.x - mapHolder.x) +2, mapHolder.sq_height * (units[i].marker.y - mapHolder.y)+2, mapHolder.sq_width-4, mapHolder.sq_height-4);
+		if(units[i].x >= mapHolder.x && units[i].x < mapHolder.x + mapHolder.hor_sq
+			&& units[i].y >= mapHolder.y && units[i].y < mapHolder.y + mapHolder.ver_sq){
+			//console.log(units[i]);
+			ctx.strokeRect(mapHolder.sq_width * (units[i].x - mapHolder.x) +2, mapHolder.sq_height * (units[i].y - mapHolder.y)+2, mapHolder.sq_width-4, mapHolder.sq_height-4);
 		}
 	}
-
-
-
+	//console.log("redrew");
 }

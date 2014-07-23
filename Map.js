@@ -1,7 +1,8 @@
 var Map = {};
 
-function isEmpty(){
-	return unit==null;
+function isEmpty(x, y){
+	//need a validation check
+	return this.tile[x][y].unit==null;
 }
 
 function getTile(x, y){
@@ -24,17 +25,35 @@ function makeUnit(player){
 	return unit;
 }
 
-function selectUnit(unit){
-	//console.log(unit, unit.marker);
-	this.selectedUnitList.push(unit);
-	unit.marker.selected = true;
-}
+function selectUnit(x, y){
+
+	if(!this.selectedTileList.addTile(x, y)){
+		console.log("removed tile");
+		this.selectedTileList.removeTile(x, y);
+	}
+	this.selectedTileList.printTiles();
+
+// 	var selecting = true;
+// 	var newSelectionList = [];
+// 	//Change this later. unit probably not necessary
+// 	for(var i in this.selectedUnitList){
+// 		if(this.selectedUnitList[i].unit == unit){ //===?
+// 			selecting = false;
+// 		}else{
+// 			newSelectionList.push(this.selectedUnitList[i]);
+// 		}
+// 	}
+
+// 	//console.log(unit, unit.marker);
+// 	if(selecting) this.selectedUnitList.push({x:x, y:y, unit:unit});
+// 	//unit.marker.selected = true;
+ }
 
 
 function addUnit(x, y, unit){
-	var unitMarker = {unit:unit, x:x, y:y, selected:false};
-	this.tiles[x][y].unit = unitMarker;
-	unit.marker = unitMarker;
+	//var unitMarker = {unit:unit, x:x, y:y, selected:false};
+	this.tiles[x][y].unit = unit;//unitMarker;
+	//unit.marker = unitMarker;
 	this.unitList.push(unit);
 	//console.log(unit.marker);
 	//console.log(this.unitList.length);
@@ -117,7 +136,7 @@ Map.makeMap = function(x, y, mapInit){
 	map.getTileInDirection = getTileInDirection;
 	map.unitList = [];
 	map.addUnit = addUnit;
-	map.selectedUnitList = [];
+	map.selectedTileList = TileCollection();
 	map.selectUnit = selectUnit;
 
 	mapInit(map);//Expect side effects.
